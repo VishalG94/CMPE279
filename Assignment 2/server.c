@@ -82,14 +82,12 @@ int main(int argc, char const *argv[])
         send(new_socket, hello, strlen(hello), 0);
 
         printf("Hello message sent %d \n", getuid());
-        return 0;
+        exit(0);
         // }
     }
     else
     {
         int newSocket = setupSocket();
-        // printf("SocketId: %d \n", newSocket);
-        // printf("Inside main server\n");
         setuid(NOBODY);
         // printf("Before Forked\n");
         int newProcess = fork();
@@ -106,12 +104,16 @@ int main(int argc, char const *argv[])
 
             execvp(argv[0], args);
         }
-        return 0;
+        else
+        {
+            wait(0);
+        }
+        // return 0;
     }
 
     // valread = read(new_socket, buffer, 1024);
     // printf("%s\n", buffer);
     // send(new_socket, hello, strlen(hello), 0);
     // printf("Hello message sent\n");
-    // return 0;
+    return 0;
 }
